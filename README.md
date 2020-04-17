@@ -70,4 +70,4 @@ Server synced lock system with lock all spawned vehicles
 
 	adjust config to your liking 
 
-	add	ensure svehiclelocks to server.cfg
+	add	start svehiclelocks to server.cfg
