@@ -1,6 +1,9 @@
 # Synced Vehicle Locks
 
+Version 1.0.2 - Patch 17/04/2020
+
 Version 1.0.1 - Patch 17/04/2020
+
 Version 1.0.0 - Realeased 17/04/2020
 
 Server synced lock system with lock all spawned vehicles
@@ -61,8 +64,8 @@ Server synced lock system with lock all spawned vehicles
 	  "burrito3",
 	  "boxville"
 	}
-	-- [[ Same as Job plates but any vehicles with this plate wont be locked, great for jobs like ESX-Moneylaundering etc   ]] --
 
+	-- [[ Same as Job plates but any vehicles with this plate can remote lock/unlock by anyone, great for jobs like ESX-Moneylaundering etc   ]] --
 	Config.whitelistPlates = { 
 	  "WAL",
 	}
@@ -98,6 +101,11 @@ Server synced lock system with lock all spawned vehicles
 	add	start svehiclelocks to server.cfg
 
 -- [[ Patch Notes ]] --
+	
+	1.0.2
+	Added white listed Vehicles
+	Added White Listed Plates
+
 	1.0.1
 	Fixed nil plate issue
 	added SQL ready function to help with an SQL error
