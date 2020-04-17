@@ -1,5 +1,6 @@
 # Synced Vehicle Locks
 
+Version 1.0.1 - Patch 17/04/2020
 Version 1.0.0 - Realeased 17/04/2020
 
 Server synced lock system with lock all spawned vehicles
@@ -71,3 +72,8 @@ Server synced lock system with lock all spawned vehicles
 	adjust config to your liking 
 
 	add	start svehiclelocks to server.cfg
+
+-- [[ Patch Notes ]] --
+	1.0.1
+	Fixed nil plate issue
+	added SQL ready function to help with an SQL error
