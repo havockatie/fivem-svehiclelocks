@@ -1,4 +1,4 @@
-ESX 					= nil
+ESX 				= nil
 local vehicle_data 		= {}
 
 TriggerEvent("esx:getSharedObject", function(library) 
