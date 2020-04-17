@@ -13,6 +13,7 @@ Server synced lock system with lock all spawned vehicles
 	-- Enable Emergency Vehicle locking by emergency job names
 	-- Enable jobs to lock there vehicles based on No Plate
 	-- Black List vehicles will always be locked
+	-- Lights Flash horn sounds, and sets the default alarm when remote locking
 
 
 -- [[ Config ]] --
