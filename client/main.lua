@@ -13,7 +13,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(10)
 
-		local ped = GetPlayerPed(-1)
+	    local ped = GetPlayerPed(-1)
 	    local pedExist = DoesEntityExist(ped)
 	    local pedinVeh = IsPedInAnyVehicle(ped, false)
 
