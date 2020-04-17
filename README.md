@@ -62,3 +62,11 @@ Server synced lock system with lock all spawned vehicles
 -- [[ Requirements ]] --
 
 	Requires ESX
+
+-- [[ Install ]] --
+
+	Copy svehiclelocks folder to server resources folder
+
+	adjust config to your liking 
+
+	add	ensure svehiclelocks to server.cfg
