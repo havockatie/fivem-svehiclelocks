@@ -2,17 +2,17 @@ ESX 				= nil
 local vehicle_data 		= {}
 local SQLReady
 
-MySQL.ready(function ()
-	SQLReady = true
-end)
-
 TriggerEvent("esx:getSharedObject", function(library) 
 	ESX = library 
 end)
 
+MySQL.ready(function ()
+	SQLReady = true
+end)
+
 AddEventHandler('onResourceStart', function(resource)
 	if resource == GetCurrentResourceName() then
-		while not SQLReady do Wait(0) end
+		while not SQLReady do Wait(0) end		
 		getvehiclesList()
 	end
 end)
@@ -150,9 +150,15 @@ lockChance = function(doorangle, modelHash, lockstatus)
 		end
 	end
 
-	for k,v in pairs(Config.blacklist) do
+	for k,v in pairs(Config.blacklistVehicles) do
 		if modelHash == GetHashKey(v) then
 			return true
+		end
+	end
+
+	for k,v in pairs(Config.whitelistVehicles) do
+		if modelHash == GetHashKey(v) then
+			return false
 		end
 	end
 
@@ -183,6 +189,16 @@ isAuthorised = function(plate)
 			jobPlate = string.gsub(plateStripped, "[0-9]", "")
 			jobplateStripped = string.gsub(jobPlate, "%s+", "")
 			if Config.JobsandPlates[i].job == playerJob.name and Config.JobsandPlates[i].plate == jobplateStripped then
+				return true
+			end
+		end
+	end
+
+	for i=1, #Config.whitelistPlates do
+		if vehicle_data[plateStripped] then
+			whitelistedPlate = string.gsub(plateStripped, "[0-9]", "")
+			whitelistedPlateStripped = string.gsub(whitelistedPlate, "%s+", "")
+			if Config.whitelistPlates[i] == whitelistedPlateStripped then
 				return true
 			end
 		end
