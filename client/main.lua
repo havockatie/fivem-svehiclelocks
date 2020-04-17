@@ -1,6 +1,6 @@
 local ESX 			= nil
 local busy 			= false
-local hasExited 	= false
+local hasExited 		= false
 
 Citizen.CreateThread(function()
 	while ESX == nil do
