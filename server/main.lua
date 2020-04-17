@@ -1,5 +1,10 @@
 ESX 				= nil
 local vehicle_data 		= {}
+local SQLReady
+
+MySQL.ready(function ()
+	SQLReady = true
+end)
 
 TriggerEvent("esx:getSharedObject", function(library) 
 	ESX = library 
@@ -7,12 +12,14 @@ end)
 
 AddEventHandler('onResourceStart', function(resource)
 	if resource == GetCurrentResourceName() then
+		while not SQLReady do Wait(0) end
 		getvehiclesList()
 	end
 end)
 
 RegisterServerEvent('shorty_slocks:getLockStatus')
 AddEventHandler('shorty_slocks:getLockStatus', function(plate, doorangle, modelHash, lockstatus, class, call)
+	if not plate then return end
 	local plateStripped = string.gsub(plate, "%s+", "")
 	local _source = source
 	local Cclass = class
