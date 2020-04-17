@@ -34,7 +34,7 @@ Config.whitelistVehicles = {
   "burrito3",
   "boxville"
 }
--- [[ Same as Job plates but any vehicles with this plate wont be locked, great for jobs like ESX-Moneylaundering etc   ]] --
+-- [[ Same as Job plates but any vehicles with this plate can remote lock/unlock by anyone, great for jobs like ESX-Moneylaundering etc   ]] --
 
 Config.whitelistPlates = { 
   "WAL"
