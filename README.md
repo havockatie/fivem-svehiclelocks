@@ -1,5 +1,7 @@
 # Synced Vehicle Locks
 
+Version 1.0.3 - Patch 18/04/2020
+
 Version 1.0.2 - Patch 17/04/2020
 
 Version 1.0.1 - Patch 17/04/2020
@@ -88,6 +90,12 @@ Server synced lock system with lock all spawned vehicles
 		local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 		TriggerServerEvent('shorty_slocks:transferOwner', plate, owner)
 
+-- [[ Call for Theft Systems ]] --
+
+	-- Plate = Vehicle Plate ( GetVehicleNumberPlateText(vehicle) )
+
+	TriggerServerEvent('shorty_slocks:breakIn', Plate)
+
 -- [[ Requirements ]] --
 
 	Requires ESX
@@ -102,6 +110,10 @@ Server synced lock system with lock all spawned vehicles
 
 -- [[ Patch Notes ]] --
 	
+	1.0.3
+	Fixed bad call when transfering owner
+	Added Call for Breaking into Vehicles ( Lock Pick Script etc )
+
 	1.0.2
 	Added white listed Vehicles
 	Added White Listed Plates
