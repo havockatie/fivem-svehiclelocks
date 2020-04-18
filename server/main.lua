@@ -19,7 +19,7 @@ end)
 
 RegisterServerEvent('shorty_slocks:transferOwner')
 AddEventHandler('shorty_slocks:transferOwner', function(plate, ownerID)
-	if plate and owner then
+	if plate and ownerID then
 		local plateStripped = string.gsub(plate, "%s+", "")
 		local xPlayer = ESX.GetPlayerFromId(ownerID)
 
