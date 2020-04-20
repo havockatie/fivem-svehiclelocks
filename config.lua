@@ -1,5 +1,7 @@
 -- [[ Version 1.0.4 ]] --
 
+-- [[ Hope RP - connect 193.70.80.35:30120 ]] --
+
 Config = {}
 
 Config.Locale      = 'en'  -- [[ Local Language en by default                          ]] --
