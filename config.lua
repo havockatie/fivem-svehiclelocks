@@ -1,6 +1,7 @@
 -- [[ Version 1.0.4 ]] --
 
 -- [[ Hope RP - connect 193.70.80.35:30120 ]] --
+-- [[ Discord Shorty Ward - https://discord.gg/rH7fheS  ]] --
 
 Config = {}
 
