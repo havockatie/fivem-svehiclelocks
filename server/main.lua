@@ -50,11 +50,24 @@ AddEventHandler('shorty_slocks:breakIn', function(plate)
 end)
 
 RegisterServerEvent('shorty_slocks:getLockStatus')
-AddEventHandler('shorty_slocks:getLockStatus', function(plate, doorangle, modelHash, lockstatus, class, call)
+AddEventHandler('shorty_slocks:getLockStatus', function(plate, doorangle, modelHash, lockstatus, class, call, menu)
 	if not plate then return end
 	local plateStripped = string.gsub(plate, "%s+", "")
 	local _source = source
 	local Cclass = class
+
+	if string.match(plate, Config.rentalPlate) then
+		if not vehicle_data[plateStripped] then
+			getlockStatus(plate, class, doorangle, modelHash, lockstatus)
+			if string.len(vehicle_data[plateStripped].owner) < 3 then
+				getrentedOwner(plate)
+			end
+		elseif vehicle_data[plateStripped] then
+			if string.len(vehicle_data[plateStripped].owner) < 3  then
+				getrentedOwner(plate)
+			end
+		end
+	end
 
 	if call == 'outside' then
 		if not vehicle_data[plateStripped] then
@@ -66,16 +79,26 @@ AddEventHandler('shorty_slocks:getLockStatus', function(plate, doorangle, modelH
 	elseif call == 'inside' then
 		if not vehicle_data[plateStripped] then
 			getlockStatus(plate, Cclass, doorangle, modelHash, lockstatus)
+			if menu then
+				if lockstatus == true or lockstatus == false or lockstatus == 4 then
+					vehicle_data[plateStripped].lockstatus = lockstatus
+				end
+			end			
 			setvehicleLocks(plate, plateStripped, call)
 		else
-			if vehicle_data[plateStripped].lockstatus == true then 
-				vehicle_data[plateStripped].lockstatus = 4
-			elseif vehicle_data[plateStripped].lockstatus == 4 then 
-				vehicle_data[plateStripped].lockstatus = false
-			elseif vehicle_data[plateStripped].lockstatus == false then
-				vehicle_data[plateStripped].lockstatus = true
+			if menu then
+				if lockstatus == true or lockstatus == false or lockstatus == 4 then
+					vehicle_data[plateStripped].lockstatus = lockstatus
+				end
+			else
+				if vehicle_data[plateStripped].lockstatus == true then 
+					vehicle_data[plateStripped].lockstatus = 4
+				elseif vehicle_data[plateStripped].lockstatus == 4 then 
+					vehicle_data[plateStripped].lockstatus = false
+				elseif vehicle_data[plateStripped].lockstatus == false then
+					vehicle_data[plateStripped].lockstatus = true
+				end
 			end
-
 			setvehicleLocks(plate, plateStripped, call)
 		end
 	elseif call == 'exiting'  then
@@ -98,13 +121,24 @@ AddEventHandler('shorty_slocks:getLockStatus', function(plate, doorangle, modelH
 			getlockStatus(plate, Cclass, doorangle, modelHash, lockstatus)
 
 			if isAuthorised(plate) then
+				if menu then
+					if lockstatus == true or lockstatus == false or lockstatus == 4 then
+						vehicle_data[plateStripped].lockstatus = lockstatus
+					end
+				end				
 				setvehicleLocks(plate, plateStripped, call)
 			else
 				setvehicleLocks(nil, nil, 'notauth')
 			end
 		else
 			if isAuthorised(plate) then
-				vehicle_data[plateStripped].lockstatus = not vehicle_data[plateStripped].lockstatus
+				if menu then
+					if lockstatus == true or lockstatus == false or lockstatus == 4 then
+						vehicle_data[plateStripped].lockstatus = lockstatus
+					end
+				else			
+					vehicle_data[plateStripped].lockstatus = not vehicle_data[plateStripped].lockstatus
+				end
 				setvehicleLocks(plate, plateStripped, call)
 			else
 				setvehicleLocks(nil, nil, 'notauth')			
@@ -122,6 +156,26 @@ getvehiclesList = function()
 			end
 		end
 	end)
+
+	MySQL.Async.fetchAll('SELECT owner, plate FROM rented_vehicles', {}, function(result)
+		if #result > 0 then
+			for i = 1, #result do
+				local plateStripped = string.gsub(result[i].plate, "%s+", "")
+				vehicle_data[plateStripped] = { owner = result[i].owner, lockstatus = Config.defLock }
+			end
+		end
+	end)	
+end
+
+getrentedOwner = function(plate)
+	MySQL.Async.fetchAll('SELECT owner FROM rented_vehicles WHERE plate = @plate', {['@plate'] = plate}, function(result)
+		if #result > 0 then
+			for i = 1, #result do
+				local plateStripped = string.gsub(plate, "%s+", "")
+				vehicle_data[plateStripped].owner = result[i].owner
+			end
+		end
+	end)	
 end
 
 getlockStatus = function(plate, class, doorangle, modelHash, lockstatus)
