@@ -20,7 +20,7 @@ Citizen.CreateThread(function()
 		if IsControlJustReleased(0, Config.lockKey) and IsInputDisabled(0) then
 			if busy == false then
 				busy = true
-				getVehicle()
+				getVehicle(nil, nil)
 			end
 		end
 
@@ -50,9 +50,10 @@ Citizen.CreateThread(function()
 	end
 end)
 
-getVehicle = function()
+getVehicle = function(ismenu, lockstatus)
 	local player = PlayerPedId()
 	local coords = GetEntityCoords(player)
+	local lockStatus
 	local vehicle = nil
 
 	if IsPedInAnyVehicle(player, false) then
@@ -61,7 +62,12 @@ getVehicle = function()
 			if isaVehicle(vehicle) then 
 				if GetPedInVehicleSeat(vehicle, -1) == player or GetPedInVehicleSeat(vehicle, 0) == player then
 					local doorAngle = GetVehicleDoorAngleRatio(vehicle, 0)
-					TriggerServerEvent('shorty_slocks:getLockStatus', GetVehicleNumberPlateText(vehicle), doorAngle, GetEntityModel(vehicle), GetVehicleDoorLockStatus(vehicle), GetVehicleClass(vehicle), 'inside')
+					if ismenu then
+						lockStatus = lockstatus
+					else
+						lockStatus =  GetVehicleDoorLockStatus(vehicle)
+					end
+					TriggerServerEvent('shorty_slocks:getLockStatus', GetVehicleNumberPlateText(vehicle), doorAngle, GetEntityModel(vehicle), lockStatus, GetVehicleClass(vehicle), 'inside', ismenu)
 				end
 			end
 		end
@@ -87,7 +93,12 @@ getVehicle = function()
 		else
 			if isaVehicle(vehicle) then
 				local doorAngle = GetVehicleDoorAngleRatio(vehicle, 0)
-				TriggerServerEvent('shorty_slocks:getLockStatus', GetVehicleNumberPlateText(vehicle), doorAngle, GetEntityModel(vehicle), GetVehicleDoorLockStatus(vehicle), GetVehicleClass(vehicle), 'remote')
+				if ismenu then
+					lockStatus = lockstatus
+				else
+					lockStatus =  GetVehicleDoorLockStatus(vehicle)
+				end					
+				TriggerServerEvent('shorty_slocks:getLockStatus', GetVehicleNumberPlateText(vehicle), doorAngle, GetEntityModel(vehicle), lockStatus, GetVehicleClass(vehicle), 'remote', ismenu)
 			end
 		end		
 	end
@@ -192,4 +203,22 @@ AddEventHandler('shorty_slocks:setvehicleLock', function(plate, lockstatus, call
 	end
 
 	busy = false
+end)
+
+RegisterNetEvent('shorty_slocks:setvehicleLockMenu')
+AddEventHandler('shorty_slocks:setvehicleLockMenu', function(lockStatus)
+	local lowerLockStatus = string.lower(tostring(lockStatus))
+	
+	if lowerLockStatus == 'locked' or lockStatus == 2 then
+		lockStatus = true
+	elseif lowerLockStatus == 'unlocked' or lockStatus == 1 then
+		lockStatus = false
+	elseif lowerLockStatus == 'doublelocked' then
+		lockStatus = 4
+	end
+
+	if busy == false then
+		busy = true
+		getVehicle(true, lockStatus)
+	end
 end)
