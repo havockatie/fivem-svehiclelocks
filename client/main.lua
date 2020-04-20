@@ -209,11 +209,11 @@ RegisterNetEvent('shorty_slocks:setvehicleLockMenu')
 AddEventHandler('shorty_slocks:setvehicleLockMenu', function(lockStatus)
 	local lowerLockStatus = string.lower(tostring(lockStatus))
 	
-	if lowerLockStatus == 'locked' or lockStatus == 2 then
+	if lowerLockStatus == 'lock' or lockStatus == 2 then
 		lockStatus = true
-	elseif lowerLockStatus == 'unlocked' or lockStatus == 1 then
+	elseif lowerLockStatus == 'unlock' or lockStatus == 1 then
 		lockStatus = false
-	elseif lowerLockStatus == 'doublelocked' then
+	elseif lowerLockStatus == 'doublelock' then
 		lockStatus = 4
 	end
 
