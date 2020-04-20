@@ -1,14 +1,15 @@
--- [[ Version 1.0.2 ]] --
+-- [[ Version 1.0.4 ]] --
 
 Config = {}
 
-Config.Locale   = 'en'  -- [[ Local Language en by default                          ]] --
-Config.notifca  = false -- [[ Show lock and unlock messages, false default          ]] --
-Config.lockKey  = 182   -- [[ Key to Lock / Unlock Vehicle L by default             ]] --
-Config.lockNPC  = true  -- [[ Lock all NPC cars True By Default                     ]] --
-Config.defLock  = false -- [[ Default setting for Owned vehicles false by default   ]] --
-Config.lChance  = 10    -- [[ Percent chance of vehicle being unlocked              ]] --
-Config.rDist    = 10    -- [[ Distance for vehicles in area default 10              ]] --
+Config.Locale      = 'en'  -- [[ Local Language en by default                          ]] --
+Config.notifca     = false -- [[ Show lock and unlock messages, false default          ]] --
+Config.lockKey     = 182   -- [[ Key to Lock / Unlock Vehicle L by default             ]] --
+Config.lockNPC     = true  -- [[ Lock all NPC cars True By Default                     ]] --
+Config.defLock     = false -- [[ Default setting for Owned vehicles false by default   ]] --
+Config.lChance     = 10    -- [[ Percent chance of vehicle being unlocked              ]] --
+Config.rDist       = 10    -- [[ Distance for vehicles in area default 10              ]] --
+Config.rentalPlate = 'RENT'-- [[ Rental Plate None Unique letters Default is RENT      ]] --
 
 -- [[ Names of emergency jobs for emergency vehicle locks  ]] --
 Config.emergencyJob = {
