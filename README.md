@@ -1,5 +1,7 @@
 # Synced Vehicle Locks
 
+Version 1.0.4 - Update 20/04/2020
+
 Version 1.0.3 - Patch 18/04/2020
 
 Version 1.0.2 - Patch 17/04/2020
@@ -24,53 +26,48 @@ Server synced lock system with lock all spawned vehicles
 
 -- [[ Config ]] --
 
-	-- [[ Version 1.0.2 ]] --
+	-- [[ Version 1.0.4 ]] --
 
-	Config = {}
+		Config = {}
 
-	Config.Locale   = 'en'  -- [[ Local Language en by default                          ]] --
-	Config.notifca  = false -- [[ Show lock and unlock messages, false default          ]] --
-	Config.lockKey  = 182   -- [[ Key to Lock / Unlock Vehicle L by default             ]] --
-	Config.lockNPC  = true  -- [[ Lock all NPC cars True By Default                     ]] --
-	Config.defLock  = false -- [[ Default setting for Owned vehicles false by default   ]] --
-	Config.lChance  = 10    -- [[ Percent chance of vehicle being unlocked              ]] --
-	Config.rDist    = 10    -- [[ Distance for vehicles in area default 10              ]] --
+		Config.Locale      = 'en'  -- [[ Local Language en by default                          ]] --
+		Config.notifca     = false -- [[ Show lock and unlock messages, false default          ]] --
+		Config.lockKey     = 182   -- [[ Key to Lock / Unlock Vehicle L by default             ]] --
+		Config.lockNPC     = true  -- [[ Lock all NPC cars True By Default                     ]] --
+		Config.defLock     = false -- [[ Default setting for Owned vehicles false by default   ]] --
+		Config.lChance     = 10    -- [[ Percent chance of vehicle being unlocked              ]] --
+		Config.rDist       = 10    -- [[ Distance for vehicles in area default 10              ]] --
+		Config.rentalPlate = 'RENT'-- [[ Rental Plate None Unique letters Default is RENT      ]] --
 
-	-- [[ Names of emergency jobs for emergency vehicle locks  ]] --
-	Config.emergencyJob = {
-	  "police",
-	  "bcso",
-	  "ambulance"
-	}
+		-- [[ Names of emergency jobs for emergency vehicle locks  ]] --
+		Config.emergencyJob = {
+		  "police",
+		  "bcso",
+		  "ambulance"
+		}
 
-	-- [[ Job name and Number Plate NOTE: this removes any numbers E.G PDM 477 will read PDM  ]] --
-	Config.JobsandPlates = {
-	  [1] = {job = 'cardealer',           plate = 'PDM'},
-	  [2] = {job = 'disciples',           plate = 'DISI'},
-	  [3] = {job = 'mechanic',            plate = 'BENNY'},
-	  [4] = {job = 'jandm',               plate = 'JANDM'},
-	  [5] = {job = 'crips',               plate = 'CRIP'},
-	  [6] = {job = 'disciplesdealership', plate = 'DISI'},
-	  [7] = {job = 'lostmc',              plate = 'LOST'},
-	  [8] = {job = 'the_fianna',          plate = 'FINNA'},
-	}
+		-- [[ Job name and Number Plate NOTE: this removes any numbers E.G PDM 477 will read PDM  ]] --
+		Config.JobsandPlates = {
+		  [1] = {job = 'cardealer',           plate = 'PDM'},
+		  [2] = {job = 'mechanic',            plate = 'BENNY'}
+		}
 
-	-- [[ These vehicles will always be LOCKED and cannot be Unlocked   ]] --
-	Config.blacklistVehicles = {
-	  "T20",
-	  "RHINO"
-	}
+		-- [[ These vehicles will always be LOCKED and cannot be Unlocked   ]] --
+		Config.blacklistVehicles = {
+		  "T20",
+		  "RHINO"
+		}
 
-	-- [[ Vehicles wich will never be locked, great when using vehicles and no job or plate is Set  ]] --
-	Config.whitelistVehicles = {
-	  "burrito3",
-	  "boxville"
-	}
+		-- [[ Vehicles wich will never be locked, great when using vehicles and no job or plate is Set  ]] --
+		Config.whitelistVehicles = {
+		  "burrito3",
+		  "boxville"
+		}
+		-- [[ Same as Job plates but any vehicles with this plate can remote lock/unlock by anyone, great for jobs like ESX-Moneylaundering etc   ]] --
 
-	-- [[ Same as Job plates but any vehicles with this plate can remote lock/unlock by anyone, great for jobs like ESX-Moneylaundering etc   ]] --
-	Config.whitelistPlates = { 
-	  "WAL",
-	}
+		Config.whitelistPlates = { 
+		  "WAL"
+		}
     
 -- [[ Job Vehicle Lock System ]] --
 	
@@ -96,6 +93,12 @@ Server synced lock system with lock all spawned vehicles
 
 	TriggerServerEvent('shorty_slocks:breakIn', Plate)
 
+-- [[ Call for Menu Systems ]] --
+	
+	TriggerClientEvent('shorty_slocks:setvehicleLockMenu', 'lock') - To Lock Vehicle Can Also Use, True or 2
+	TriggerClientEvent('shorty_slocks:setvehicleLockMenu', 'unlock') - To Unlock can also use, False or 1
+	TriggerClientEvent('shorty_slocks:setvehicleLockMenu', 'doubleLock') - To Lock DoubleLock, can also use 4
+
 -- [[ Requirements ]] --
 
 	Requires ESX
@@ -109,6 +112,10 @@ Server synced lock system with lock all spawned vehicles
 	add	start svehiclelocks to server.cfg
 
 -- [[ Patch Notes ]] --
+	
+	1.0.4
+	Added Option to call from a Menu System
+	Added Rented Vehicles based on plate in Config Default 'RENT'
 	
 	1.0.3
 	Fixed bad call when transfering owner
