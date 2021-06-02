@@ -188,7 +188,8 @@ AddEventHandler('shorty_slocks:setvehicleLock', function(plate, lockstatus, call
 				end
 
 				if owner and Config.notifca then
-					TriggerEvent('chat:addMessage', { args = { _U('title'), message } })
+					-- TriggerEvent('chat:addMessage', { args = { _U('title'), message } })
+					NotifyLockedStatus(vehicles[i], lockstatus)					
 				end
 
 			end
@@ -220,5 +221,57 @@ AddEventHandler('shorty_slocks:setvehicleLockMenu', function(lockStatus)
 	if busy == false then
 		busy = true
 		getVehicle(true, lockStatus)
+	end
+end)
+
+function GetSeatedOrNearestVehicle() 
+	local playerPed = GetPlayerPed(-1)
+	local coords = GetEntityCoords(playerPed)
+	local vehicle = GetVehiclePedIsIn(playerPed, false)
+
+	if vehicle == 0 then
+		vehicle = GetClosestVehicle(coords.x, coords.y, coords.z, 5.0, 0, 71)
+		if vehicle then			
+			return vehicle
+		end
+	else
+		return nil
+	end
+end
+
+function NotifyLockedStatus(vehicle, lockStatus) 
+	local lockedText = "Unlocked"
+	local typeName = "warning"
+
+	if lockStatus == 2 then
+		lockedText = "Locked"
+		typeName = "success"
+	end	
+
+	local vehicleHash = GetEntityModel(vehicle)
+	local plate = GetVehicleNumberPlateText(vehicle)
+	local vehicleName = GetDisplayNameFromVehicleModel(vehicleHash)
+	local vehicleNameText = GetLabelText(vehicleName)
+
+	exports['mb_notify']:sendNotification(lockedText .. ' vehicle '..plate..' '..vehicleNameText, {duration=5000, type=typeName, vertical="top", horizontal="center", variant="filled"})
+end
+
+RegisterNetEvent('shorty_slocks:setvehicleLockToggle')
+AddEventHandler('shorty_slocks:setvehicleLockToggle', function()
+	local lockStatus = 1
+	local vehicle = nil
+		
+	vehicle = GetSeatedOrNearestVehicle()
+	if vehicle then
+		if isaVehicle(vehicle) then			
+			lockStatus = GetVehicleDoorLockStatus(vehicle)
+			if lockStatus == 1 then
+				lockStatus = 2
+				lockedText = "Locked"
+			elseif lockStatus == 2 then
+				lockStatus = 1				
+			end				
+			getVehicle(false, lockStatus)			
+		end
 	end
 end)
